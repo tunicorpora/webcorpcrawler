@@ -68,8 +68,13 @@ class IgScraper(Scraper):
         Gets the next page of results as long as there is one.
         """
         try:
+            url = self.browser.current_url
             nextlink = self.browser.find_element_by_xpath("//*[contains(text(), '>>')]")
-            nextlink.click()
+            if nextlink.get_attribute("href"):
+                nextlink.click()
+                return True
+            else:
+                return False
         except  selenium.common.exceptions.NoSuchElementException:
             return False
 
@@ -89,15 +94,17 @@ class IgScraper(Scraper):
         highlighted = soup.select('#f1')
         match = ""
         date = ""
+        year = ""
         if highlighted:
             match = "".join([tag.text for tag in highlighted])
 
         metadata = paragraphs_raw[0].text
         if metadata:
             datematch = re.search("Дата выпуска: (.*)", metadata)
-            date = datematch.group(1).strip()
-            if date:
-                year = re.sub("(\d+\\.)+","",date)
+            if datematch:
+                date = datematch.group(1).strip()
+                if date:
+                    year = re.sub("(\d+\\.)+","",date)
 
         self.data[taskid].append(
                 {

@@ -17,7 +17,6 @@ class CrawlerTest(unittest.TestCase):
         s.GetTaskFromYaml(self._yamlpath)
 
     def test_crawl(self):
-        return 0
         self._scraper.GetTaskFromYaml(self._yamlpath)
         self._scraper.SetTestmode()
         self._scraper.Crawl()
@@ -30,6 +29,7 @@ class CrawlerTest(unittest.TestCase):
         self._scraper.GetTaskFromYaml(self._yamlpath)
 
     def test_process_document(self):
+        return 0
         with open("testdata/document.html","r") as f:
             test = f.read()
         soup = bs4.BeautifulSoup(test,'lxml')
