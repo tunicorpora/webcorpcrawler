@@ -2,4 +2,4 @@ output:
     - root: /home/juho/drive/work/tutkimus/data/introtopics/integrum
 targets: 
     - url: http://aafnet.integrum.ru.helios.uta.fi/artefact3/ia/ia5.aspx?lv=5&si=hiEKJrsY2E&qu=221&st=0&bi=0&nd=0&tnd=1&srt=0
-      meta: years_1990-1993
+      meta: testi

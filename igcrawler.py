@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 import os.path
 import json
 import selenium
+import justext
+import sys
+import re
 
 class IgScraper(Scraper):
     """
@@ -79,12 +82,32 @@ class IgScraper(Scraper):
         """
         alltext = soup.findAll('pre')
         if alltext:
-            self.data[taskid].append(
-                    {
-                    "meta":alltext[0].text,
-                    "txt":"\n\n".join([tag.text for tag in alltext[1:]])
-                    }
-                    )
+            paragraphs_raw = alltext
+        else:
+            paragraphs_raw = justext.justext(str(soup), justext.get_stoplist('Russian'))
+
+        highlighted = soup.select('#f1')
+        match = ""
+        date = ""
+        if highlighted:
+            match = "".join([tag.text for tag in highlighted])
+
+        metadata = paragraphs_raw[0].text
+        if metadata:
+            datematch = re.search("Дата выпуска: (.*)", metadata)
+            date = datematch.group(1).strip()
+            if date:
+                year = re.sub("(\d+\\.)+","",date)
+
+        self.data[taskid].append(
+                {
+                "meta": metadata,
+                "txt":"\n\n".join([tag.text for tag in paragraphs_raw[1:]]),
+                "match": match,
+                "date": date,
+                "year": year
+                }
+                )
 
 
     def Run(self, task):
@@ -99,5 +122,10 @@ class IgScraper(Scraper):
             pages_retrieved += 1
             logging.info("Moved to result page number {}".format(pages_retrieved))
             self.GetDocuments(task["meta"])
+
+if __name__ == "__main__":
+    s = IgScraper()
+    s.GetTaskFromYaml(sys.argv[1])
+    s.Crawl()
 
 

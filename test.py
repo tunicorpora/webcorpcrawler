@@ -1,6 +1,4 @@
 import unittest
-import re
-from pandoc_avm import Texconstruction, ParseConstruction, NodeGroup, Nobox
 from crawler import Scraper
 from igcrawler import IgScraper
 import bs4
@@ -9,7 +7,8 @@ class CrawlerTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._yamlpath = "/home/juho/drive/work/tutkimus/data/introtopics/integrum_queries.yml" 
+        #cls._yamlpath = "/home/juho/drive/work/tutkimus/data/introtopics/integrum_queries.yml" 
+        cls._yamlpath = "test.yml" 
         cls._scraper = IgScraper()
 
     def test_read_yaml(self):
@@ -18,6 +17,7 @@ class CrawlerTest(unittest.TestCase):
         s.GetTaskFromYaml(self._yamlpath)
 
     def test_crawl(self):
+        return 0
         self._scraper.GetTaskFromYaml(self._yamlpath)
         self._scraper.SetTestmode()
         self._scraper.Crawl()
@@ -30,7 +30,6 @@ class CrawlerTest(unittest.TestCase):
         self._scraper.GetTaskFromYaml(self._yamlpath)
 
     def test_process_document(self):
-        return 0
         with open("testdata/document.html","r") as f:
             test = f.read()
         soup = bs4.BeautifulSoup(test,'lxml')
