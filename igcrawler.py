@@ -4,6 +4,7 @@ import subprocess
 from bs4 import BeautifulSoup
 import os.path
 import json
+import selenium
 
 class IgScraper(Scraper):
     """
@@ -23,9 +24,13 @@ class IgScraper(Scraper):
         Log in to uta library
         """
         logging.info("Trying to make a login.. ")
-        self.browser.find_element_by_css_selector('.shibboleth-login a').click()
-        self.browser.find_element_by_css_selector('#username').send_keys(self.ReadUname())
-        self.browser.find_element_by_css_selector('#password').send_keys(self.ReadPassword())
+        try:
+            self.browser.find_element_by_css_selector('.shibboleth-login a').click()
+            self.browser.find_element_by_css_selector('#username').send_keys(self.ReadUname())
+            self.browser.find_element_by_css_selector('#password').send_keys(self.ReadPassword())
+        except  selenium.common.exceptions.NoSuchElementException:
+            logging.info("Already logged in?")
+
 
 
     def ReadPassword(self):
@@ -53,6 +58,20 @@ class IgScraper(Scraper):
             self.browser.switch_to_frame("fb")
             soup = BeautifulSoup(self.browser.page_source,'lxml')
             self.ProcessDocument(soup, taskid)
+        self.browser.get(listurl)
+
+    def NextPage(self):
+        """
+        Gets the next page of results as long as there is one.
+        """
+        try:
+            nextlink = self.browser.find_element_by_xpath("//*[contains(text(), '>>')]")
+            nextlink.click()
+        except  selenium.common.exceptions.NoSuchElementException:
+            return False
+
+        return True
+
 
     def ProcessDocument(self, soup, taskid):
         """
@@ -72,8 +91,13 @@ class IgScraper(Scraper):
         """
         What this crawler does...
         """
+        pages_retrieved = 1
         self.Get(task["url"])
         self.LibLogin()
         self.GetDocuments(task["meta"])
+        while self.NextPage():
+            pages_retrieved += 1
+            logging.info("Moved to result page number {}".format(pages_retrieved))
+            self.GetDocuments(task["meta"])
 
-        #shibboleth-login
+

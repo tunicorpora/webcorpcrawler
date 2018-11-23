@@ -9,7 +9,7 @@ class CrawlerTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._yamlpath = "test.yml" 
+        cls._yamlpath = "/home/juho/drive/work/tutkimus/data/introtopics/integrum_queries.yml" 
         cls._scraper = IgScraper()
 
     def test_read_yaml(self):
@@ -19,7 +19,7 @@ class CrawlerTest(unittest.TestCase):
 
     def test_crawl(self):
         self._scraper.GetTaskFromYaml(self._yamlpath)
-        #self._scraper.SetTestmode()
+        self._scraper.SetTestmode()
         self._scraper.Crawl()
 
     def test_readpw(self):
