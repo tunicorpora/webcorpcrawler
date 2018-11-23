@@ -6,6 +6,8 @@ from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.chrome.options import Options
 import logging
 import time
+import os
+import json
 
 
 class Scraper():
@@ -17,6 +19,7 @@ class Scraper():
         self.browser = None
         self.whichbrowser = "Cromium"
         self.testmode = False
+        self.data = {}
 
     def SetTestmode(self):
         self.testmode = True
@@ -36,7 +39,7 @@ class Scraper():
 
         """
         loggerlocation = "/tmp/crawler.log"
-        logging.basicConfig(filename=loggerlocation, level=logging.DEBUG, format='%(asctime)s %(message)s')
+        logging.basicConfig(filename=loggerlocation, level=logging.INFO, format='%(asctime)s %(message)s')
         print("Starting. Check out the logger at " + loggerlocation)
 
         logging.info('Trying to start the browser')
@@ -67,11 +70,13 @@ class Scraper():
         with open(yamlpath,"r") as f:
             targets = yaml.safe_load(f)
 
-        mydata = []
-        crawler_started = False
-
         for target in targets["targets"]:
-            self.tasks.append(target["url"])
+            self.tasks.append(target)
+            self.data[target["meta"]] = []
+
+        self.output_folder = targets["output"]
+
+
 
     def Get(self, url):
         """
@@ -91,6 +96,8 @@ class Scraper():
                 if not self.testmode:
                     self.browser.quit()
                     logging.info("The browser window was closed.")
+        if self.data:
+            self.Output()
 
 
     def Crawl(self):
@@ -102,11 +109,25 @@ class Scraper():
 
         try:
             for task in self.tasks:
-                logging.info("Running the crawler's tasks for " + task)
+                logging.info("Running the crawler's tasks for " + task["meta"])
                 self.Run(task)
                 logging.info("task finished")
         except KeyboardInterrupt:
             self.Stop()
         finally:
             self.Stop()
+
+    def Output(self):
+        """ 
+        outputs the data according to the default folder structure given in the yaml config file
+        """
+        for taskid, taskdata in self.data.items():
+            logging.info(taskid)
+            root = self.output_folder[0]["root"]
+            fn = "{}/{}.json".format(root, taskid)
+            logging.info("Outputting the data to: " + fn)
+            os.makedirs(os.path.dirname(fn), exist_ok=True)
+            with open(fn, 'w') as fp:
+                json.dump(taskdata, fp, ensure_ascii=False)
+        logging.info("Outputting done.")
 
