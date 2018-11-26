@@ -58,9 +58,12 @@ class IgScraper(Scraper):
         for idx, href in enumerate(hrefs):
             logging.info("Retrieving document number {}".format(idx))
             self.browser.get(href)
-            self.browser.switch_to_frame("fb")
-            soup = BeautifulSoup(self.browser.page_source,'lxml')
-            self.ProcessDocument(soup, taskid)
+            try:
+                self.browser.switch_to_frame("fb")
+                soup = BeautifulSoup(self.browser.page_source,'lxml')
+                self.ProcessDocument(soup, taskid)
+            except:
+                logging.error("Parsing this document failed!")
         self.browser.get(listurl)
 
     def NextPage(self):
@@ -91,14 +94,19 @@ class IgScraper(Scraper):
         else:
             paragraphs_raw = justext.justext(str(soup), justext.get_stoplist('Russian'))
 
-        highlighted = soup.select('#f1')
         match = ""
         date = ""
         year = ""
+        firstpara = ""
+        secondpara = ""
+        metadata = ""
+
+        highlighted = soup.select('#f1')
         if highlighted:
             match = "".join([tag.text for tag in highlighted])
 
-        metadata = paragraphs_raw[0].text
+        if paragraphs_raw:
+            metadata = paragraphs_raw[0].text
         if metadata:
             datematch = re.search("Дата выпуска: (.*)", metadata)
             if datematch:
@@ -106,13 +114,24 @@ class IgScraper(Scraper):
                 if date:
                     year = re.sub("(\d+\\.)+","",date)
 
+        paragraphs = [tag.text for tag in paragraphs_raw[1:]]
+        if len(paragraphs) > 0:
+            firstpara = paragraphs[0]
+        else:
+            logging.warning("No paragraphs for this text...")
+        if len(paragraphs) > 1:
+            secondpara = paragraphs[1]
+
         self.data[taskid].append(
                 {
                 "meta": metadata,
-                "txt":"\n\n".join([tag.text for tag in paragraphs_raw[1:]]),
+                "txt":"\n\n".join(paragraphs),
                 "match": match,
                 "date": date,
-                "year": year
+                "year": year,
+                "firstpara": firstpara,
+                "secondpara": secondpara,
+                "html": str(soup),
                 }
                 )
 
@@ -129,6 +148,8 @@ class IgScraper(Scraper):
             pages_retrieved += 1
             logging.info("Moved to result page number {}".format(pages_retrieved))
             self.GetDocuments(task["meta"])
+            if pages_retrieved > 100:
+                break
 
 if __name__ == "__main__":
     s = IgScraper()
