@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: webcorp-crawler
+Version: 0.0.dev0
+Summary: A simple scraping tool for getting stuff out of web corpora
+Home-page: UNKNOWN
+Author: Juho Härme
+Author-email: juho.harme@gmail.com
+License: GPL
+Description: UNKNOWN
+Keywords: crawling corpora
+Platform: UNKNOWN

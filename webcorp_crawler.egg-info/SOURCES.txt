@@ -1,0 +1,9 @@
+setup.cfg
+setup.py
+webcorp_crawler.egg-info/PKG-INFO
+webcorp_crawler.egg-info/SOURCES.txt
+webcorp_crawler.egg-info/dependency_links.txt
+webcorp_crawler.egg-info/entry_points.txt
+webcorp_crawler.egg-info/not-zip-safe
+webcorp_crawler.egg-info/top_level.txt
+webcorpcrawler/__init__.py
