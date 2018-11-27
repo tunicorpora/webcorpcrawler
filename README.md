@@ -18,7 +18,7 @@ Installation
 Via pip:
 
 ```
-pip install git+https://github.com/hrmJ/pangloss_linguex
+pip install git+https://github.com/utacorpora/webcorpcrawler
 ```
 
 <!-- 
