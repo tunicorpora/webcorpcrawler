@@ -5,5 +5,10 @@ webcorp_crawler.egg-info/SOURCES.txt
 webcorp_crawler.egg-info/dependency_links.txt
 webcorp_crawler.egg-info/entry_points.txt
 webcorp_crawler.egg-info/not-zip-safe
+webcorp_crawler.egg-info/requires.txt
 webcorp_crawler.egg-info/top_level.txt
 webcorpcrawler/__init__.py
+webcorpcrawler/crawler.py
+webcorpcrawler/igcrawler.py
+webcorpcrawler/test.py
+webcorpcrawler/webcorpcrawler.py

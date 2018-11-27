@@ -1,4 +1,4 @@
-from crawler import Scraper
+from webcorpcrawler import Scraper
 import logging
 import subprocess
 from bs4 import BeautifulSoup

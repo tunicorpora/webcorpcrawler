@@ -18,9 +18,13 @@ setup(name='webcorp-crawler',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          # -*- Extra requirements: -*-
+          'selenium',
+          'bs4',
+          'justext',
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points={
+          'console_scripts': [
+              'webcorpcrawler = webcorpcrawler.webcorpcrawler:main'
+              ]
+          }
       )
