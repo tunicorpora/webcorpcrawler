@@ -1,0 +1,30 @@
+
+Werbcorp-crawler
+================
+
+This is a set of simple tools for postprocessing results acquired, for instance,
+from a web corpus. The tools included here are especially relevant for
+cases when 
+
+a) concordance results provided by the corpus's interface cannot be easily fetched
+as json, csv etc.
+b) the corpus doesn't contain all the kinds of annotations you would like to have
+and you want to add these annotations to individual concordance results afterwards.
+
+
+Installation
+============
+
+Via pip:
+
+```
+pip install git+https://github.com/hrmJ/pangloss_linguex
+```
+
+<!-- 
+TODO:
+
+add a note on responsive usage
+
+-->
+
