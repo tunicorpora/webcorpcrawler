@@ -10,5 +10,6 @@ webcorp_crawler.egg-info/top_level.txt
 webcorpcrawler/__init__.py
 webcorpcrawler/crawler.py
 webcorpcrawler/igcrawler.py
+webcorpcrawler/jsonupdater.py
 webcorpcrawler/test.py
 webcorpcrawler/webcorpcrawler.py

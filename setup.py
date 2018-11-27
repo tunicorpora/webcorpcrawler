@@ -21,6 +21,7 @@ setup(name='webcorp-crawler',
           'selenium',
           'bs4',
           'justext',
+          'progressbar2',
       ],
       entry_points={
           'console_scripts': [
