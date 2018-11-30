@@ -28,3 +28,7 @@ add a note on responsive usage
 
 -->
 
+Examples
+========
+
+See the `docs` folder.
