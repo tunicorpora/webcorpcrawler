@@ -13,7 +13,7 @@ for tweets not older than one week). In order to run the following you need to
 have requested developer access from Twitter, but never mind, the data is also
 available as a small data set accompanying our `depsearcheR` package.
 
-```{r}
+```r
 
 library(rtweet)
 ref <- search_tweets("(#UCL OR #ChampionsLeague OR #UEFAChampionsLeague) referee",  n = 5000)
@@ -25,7 +25,7 @@ write_json(ref, "/tmp/referee.json")
 Now, in order to parse the tweets we need to index them first.
 This can be done in the following way:
 
-```{bash}
+```bash
 
 webcorpcrawler add_uids --files /tmp/referee.json --prettyprint
 
@@ -37,7 +37,7 @@ material that will be parsed. In the results of Twitter API calls,
 this variable is called "text" (see the `--prop` flag in the command). 
 
 
-```{bash}
+```bash
 
 webcorpcrawler prepare --files /tmp/referee.json --prop text --output_folder /tmp/
 
@@ -48,7 +48,7 @@ and `ids.txt`. `contents.txt` is the one you should feed to your
 parser. For instance, if you have the stanford parser installed,
 you could run something like 
 
-```{bash}
+```bash
 
 ./corenlp.sh -annotators tokenize,ssplit,pos,lemma,parse, -file contents.txt -outputFormat conll
 
@@ -57,7 +57,7 @@ you could run something like
 The final task is to inject the parsed results back to the original
 json files with the following command:
 
-```{bash}
+```bash
 
 webcorpcrawler add_parsed --files /tmp/referee.json --parsed_source contents.txt.conll --indices ids.txt --prop parsed_text --parser stanford
 
