@@ -104,3 +104,23 @@ As a result, we should now have the the file with the tweets in the following fo
 
 
 (For clarity's sake I removed some of the props provided by Twitter from the example)
+
+
+Just for reference, here's how the json can be transformed
+back to R as a tibble:
+
+```R
+
+ucl_ref <- read_json("/tmp/referee.json")  
+mylist <- list()
+ucl_ref <- lapply(ucl_ref, function(x){
+           return (tibble(x$text, x$followers_count, x$retweet_count, x$favorite_count, x$location,  x$parsed_text))
+}
+) %>% do.call(rbind, .)  %>% as_tibble
+
+colnames(ucl_ref) <- c("text","followers","retweets","favorites","location","parsed_text")
+
+```
+
+
+
