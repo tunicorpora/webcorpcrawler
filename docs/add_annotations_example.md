@@ -2,7 +2,7 @@
 Example use case for adding syntactic annotations to a set of concordances
 ===============================================================
 
-Here's a use case for data gotten from twitter using R's `tweetR`
+Here's a use case for data retrieved from twitter using R's `tweetR`
 package. It demonstrates how you can add syntactic
 annotations to twitter data using webcorpcrawl and 
 an parser (in this case, stanford's dep parser).

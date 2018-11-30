@@ -31,4 +31,4 @@ add a note on responsive usage
 Examples
 ========
 
-See the `docs` folder.
+See the `docs` folder. ([dircet link](https://github.com/utacorpora/webcorpcrawler/blob/master/docs/add_annotations_example.md))
