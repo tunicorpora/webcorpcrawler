@@ -27,6 +27,10 @@ def main():
     parser.add_argument('--parsed_source',
             metavar = "path",
             help="path to a file containing the parsed results")
+    parser.add_argument('--parser',
+            metavar = "parser name",
+            default = "default",
+            help="The name of the parser that was used")
     parser.add_argument('--prettyprint',
             nargs = "?",
             const = True,
@@ -46,7 +50,7 @@ def main():
         updater.PrepareForParsing(args.prop, args.output_folder)
     elif args.action == "add_parsed":
         updater = JsonUpdater(args.files)
-        updater.AddParsed(args.prop, args.parsed_source, args.indices)
+        updater.AddParsed(args.prop, args.parsed_source, args.indices, args.parser)
         updater.Output(args.prettyprint)
 
 

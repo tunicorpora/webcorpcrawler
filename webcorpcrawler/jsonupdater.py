@@ -1,5 +1,4 @@
 #! /usr/bin/python3.6
-
 import json
 import glob
 import os.path
@@ -87,7 +86,7 @@ class JsonUpdater():
             f.write("\n".join(ids))
         print("The prepared files were produced at {}".format(target_dir))
 
-    def AddParsed(self, target_prop, source_file, index_file):
+    def AddParsed(self, target_prop, source_file, index_file, parsertype="default"):
         """
 
         - target_prop: name of the new property representing the parsed results
@@ -96,7 +95,10 @@ class JsonUpdater():
         """
         with open(source_file, "r") as f:
             raw = f.read()
-        splitpattern = re.compile(r"\d+\t![^\n]+\n\n?"*14 + r"\d+\t![^\n]+\n\n")
+        if parsertype == "default":
+            splitpattern = re.compile(r"\d+\t![^\n]+\n\n?"*14 + r"\d+\t![^\n]+\n\n")
+        elif parsertype == "stanford":
+            splitpattern = re.compile(r"\d+\t!{14}[^\n]+\n\n")
         results = splitpattern.split(raw)
         with open(index_file, "r") as f:
             indices = f.read().splitlines()
