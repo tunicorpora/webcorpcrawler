@@ -13,7 +13,7 @@ for tweets not older than one week). In order to run the following you need to
 have requested developer access from Twitter, but never mind, the data is also
 available as a small data set accompanying our `depsearcheR` package.
 
-```r
+```R
 
 library(rtweet)
 ref <- search_tweets("(#UCL OR #ChampionsLeague OR #UEFAChampionsLeague) referee",  n = 5000)
@@ -110,6 +110,8 @@ Just for reference, here's how the json can be transformed
 back to R as a tibble:
 
 ```R
+library(jsonlite)
+library(dplyr)
 
 ucl_ref <- read_json("/tmp/referee.json")  
 mylist <- list()
