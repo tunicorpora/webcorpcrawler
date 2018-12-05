@@ -51,6 +51,7 @@ class Scraper():
             if not self.testmode:
                 chrome_options.add_argument("--headless")  
                 chrome_options.add_argument("--disable-gpu")  
+                chrome_options.add_argument("no-sandbox")  
             self.browser = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver",
                                               options=chrome_options)
         self.browser.implicitly_wait(3)
