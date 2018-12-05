@@ -4,7 +4,7 @@
 ```
 apt update
 apt install -y python3-pip chromium-browser python3-selenium chromium-chromedriver
-
+pip3 install git+https://github.com/utacorpora/webcorpcrawler
 
 ```
 

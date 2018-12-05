@@ -15,6 +15,9 @@ def main():
             metavar = "json files",
             nargs = "*",
             help="path to the folder containing the json files (produced as a result of a previous crawl) OR a list of files")
+    parser.add_argument('--crawlconfig',
+            metavar = "path to yaml file",
+            help="a yaml file containing what to parse. For examples see the scripts repository")
     parser.add_argument('--prop',
             metavar = "property name",
             help="which property of a data item (concordance) will be used in the action")
@@ -44,7 +47,10 @@ def main():
     args = parser.parse_args()
 
     if args.action == "crawl":
-        print("let's crawl")
+        if args.corpus == "integrum":
+            s = IgScraper()
+            s.GetTaskFromYaml(args.crawlconfig)
+            s.Crawl()
     elif args.action == "add_uids":
         updater = JsonUpdater(args.files)
         updater.AddUids()

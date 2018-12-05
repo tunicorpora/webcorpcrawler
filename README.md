@@ -18,7 +18,7 @@ Installation
 Via pip:
 
 ```
-pip install git+https://github.com/utacorpora/webcorpcrawler
+pip3 install git+https://github.com/utacorpora/webcorpcrawler
 ```
 
 <!-- 

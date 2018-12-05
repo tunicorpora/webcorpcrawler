@@ -1,5 +1,5 @@
 output:
-    - root: /home/juho/drive/work/tutkimus/data/introtopics/integrum
+    - root: /home/user/test/
 targets: 
-    - url: http://aafnet.integrum.ru.helios.uta.fi/artefact3/ia/ia5.aspx?lv=5&si=ZWVLnQQi2E&qu=231&st=0&bi=0&nd=0&tnd=1&srt=0
+    - url: http://url.test
       meta: testi
