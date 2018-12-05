@@ -8,6 +8,7 @@ import selenium
 import justext
 import sys
 import re
+import progressbar
 
 class IgScraper(Scraper):
     """
@@ -48,14 +49,13 @@ class IgScraper(Scraper):
         """
         return subprocess.check_output([ "pass", "show", "essential/yo_uname" ]).decode("utf-8")
 
-    def GetDocuments(self, taskid, hrefs=None):
+    def GetDocuments(self, taskid):
         """
         Gets the individual documents on a listing page
         """
-        if not hrefs:
-            doculinks = self.browser.find_elements_by_css_selector('.aftitle')
-            hrefs = [el.get_attribute("href") for el in doculinks]
-            listurl = self.browser.current_url
+        doculinks = self.browser.find_elements_by_css_selector('.aftitle')
+        hrefs = [el.get_attribute("href") for el in doculinks]
+        listurl = self.browser.current_url
         for idx, href in enumerate(hrefs):
             logging.info("Retrieving document number {}".format(idx))
             self.browser.get(href)
@@ -73,9 +73,7 @@ class IgScraper(Scraper):
         """
         publications = self.browser.find_elements_by_css_selector('.afparam')
         #Note: skipping the ones with pdfs
-        hrefs = [el.get_attribute("href") for el in publications if "PDF" not in el.text]
-        self.GetDocuments(taskid)
-        import ipdb;ipdb.set_trace()
+        self.db_hrefs = [el.get_attribute("href") for el in publications if "PDF" not in el.text]
 
 
     def NextPage(self):
@@ -156,12 +154,15 @@ class IgScraper(Scraper):
         self.Get(task["url"])
         self.LibLogin()
         self.GetDatabases(task["meta"])
-        #while self.NextPage():
-        #    pages_retrieved += 1
-        #    logging.info("Moved to result page number {}".format(pages_retrieved))
-        #    self.GetDocuments(task["meta"])
-        #    if pages_retrieved > 100:
-        #        break
+        for href in progressbar.progressbar(self.db_hrefs):
+            self.Get(href)
+            self.GetDocuments(task["meta"])
+            while self.NextPage():
+                pages_retrieved += 1
+                logging.info("Moved to result page number {}".format(pages_retrieved))
+                self.GetDocuments(task["meta"])
+                if pages_retrieved > 100:
+                    break
 
 if __name__ == "__main__":
     s = IgScraper()
