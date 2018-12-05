@@ -152,6 +152,7 @@ class IgScraper(Scraper):
         """
         pages_retrieved = 1
         self.Get(task["url"])
+        self.browser.save_screenshot("start.png")
         self.LibLogin()
         self.GetDatabases(task["meta"])
         for href in progressbar.progressbar(self.db_hrefs):
