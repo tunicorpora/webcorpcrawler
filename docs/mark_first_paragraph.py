@@ -1,6 +1,6 @@
 
 
-def MarkFirstPara(self):
+def MarkFirstPara(self, args):
     """
     Tries to locate the first paragraph of a text (containing a real sentence)
     """
@@ -21,7 +21,7 @@ def MarkFirstPara(self):
                     break
             txt = self.data[e_idx]["data"][i_idx]["firstpara_new"] = first_para
 
-    self.Output()
+    self.Output(args.prettyprint)
 
 
 JsonUpdater.custom = MarkFirstPara

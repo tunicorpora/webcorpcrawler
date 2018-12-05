@@ -61,7 +61,7 @@ def main():
             code = f.read()
         exec(code)
         updater = JsonUpdater(args.files)
-        updater.custom()
+        updater.custom(args)
 
 
 if __name__ == '__main__':
