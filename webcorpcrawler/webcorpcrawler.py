@@ -6,7 +6,7 @@ def main():
     parser = argparse.ArgumentParser(description='Fetches the results of a web corpus query to json')
     parser.add_argument('action', 
             metavar = 'action',
-            choices = ["crawl", "add_uids", "prepare", "add_parsed"], help="The action to run")
+            choices = ["crawl", "add_uids", "prepare", "add_parsed", "custom"], help="The action to run")
     parser.add_argument('-c',  '--corpus',
             metavar = 'corpus name',
             choices = ["integrum"], default="integrum",
@@ -36,6 +36,10 @@ def main():
             const = True,
             default = False,
             help="prettyprints the json files")
+    parser.add_argument('--actionfile',
+            metavar = "filename",
+            default = "default",
+            help="Path to the file containing the custom action")
 
     args = parser.parse_args()
 
@@ -52,6 +56,12 @@ def main():
         updater = JsonUpdater(args.files)
         updater.AddParsed(args.prop, args.parsed_source, args.indices, args.parser)
         updater.Output(args.prettyprint)
+    elif args.action == "custom":
+        with open(args.actionfile, "r") as f:
+            code = f.read()
+        exec(code)
+        updater = JsonUpdater(args.files)
+        updater.custom()
 
 
 if __name__ == '__main__':
