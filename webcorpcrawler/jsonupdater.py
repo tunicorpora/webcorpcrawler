@@ -99,6 +99,8 @@ class JsonUpdater():
             splitpattern = re.compile(r"\d+\t![^\n]+\n\n?"*14 + r"\d+\t![^\n]+\n\n")
         elif parsertype == "stanford":
             splitpattern = re.compile(r"\d+\t!{14}[^\n]+\n\n")
+        elif parsertype == "turku_ud":
+            splitpattern = re.compile(r"\d+\t!{14}[^\n]+")
         results = splitpattern.split(raw)
         with open(index_file, "r") as f:
             indices = f.read().splitlines()
