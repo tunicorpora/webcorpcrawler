@@ -52,7 +52,7 @@ class JsonUpdater():
             for i_idx, item in enumerate(entry["data"]):
                 self.data[e_idx]["data"][i_idx]["id"] = str(uuid.uuid4())
 
-    def PrepareForParsing(self, target_prop, target_dir="/tmp"):
+    def PrepareForParsing(self, target_prop, target_dir="/tmp", parsertype="default"):
         """
         Prepares some property of each item in the json for parsing using
         unique identifiers
@@ -73,8 +73,11 @@ class JsonUpdater():
                     ids.append(item["id"])
                     contents.append(item[target_prop])
 
-        separator = {"mark" : "!", "counter" : 15}
-        separator_string = "\n" + separator["mark"] * separator["counter"] + "\n"
+        if parsertype == "turku_ud":
+            separator_string = "\n###C:splitsegmentsbymepleasewouldyoubesokindhtankyouverymuchxdxdxd\n"
+        else:
+            separator = {"mark" : "!", "counter" : 15}
+            separator_string = "\n" + separator["mark"] * separator["counter"] + "\n"
 
         if not target_dir:
             target_dir = "/tmp"
@@ -100,8 +103,10 @@ class JsonUpdater():
         elif parsertype == "stanford":
             splitpattern = re.compile(r"\d+\t!{14}[^\n]+\n\n")
         elif parsertype == "turku_ud":
+            separator_string = "splitsegmentsbymepleasewouldyoubesokindhtankyouverymuchxdxdxd"
+            raw = "\n".join([l for l in raw.splitlines() if not re.search("^#", l) or separator_string in l])
             #TODO: use metadata.. Why only 10??
-            splitpattern = re.compile(r"\d+\t![^\n]+\n"*10)
+            splitpattern = re.compile(".*"  + separator_string + ".*")
         results = splitpattern.split(raw)
         with open(index_file, "r") as f:
             indices = f.read().splitlines()

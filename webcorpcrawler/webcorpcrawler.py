@@ -57,7 +57,7 @@ def main():
         updater.Output(args.prettyprint)
     elif args.action == "prepare":
         updater = JsonUpdater(args.files)
-        updater.PrepareForParsing(args.prop, args.output_folder)
+        updater.PrepareForParsing(args.prop, args.output_folder, args.parser)
     elif args.action == "add_parsed":
         updater = JsonUpdater(args.files)
         updater.AddParsed(args.prop, args.parsed_source, args.indices, args.parser)
