@@ -100,7 +100,8 @@ class JsonUpdater():
         elif parsertype == "stanford":
             splitpattern = re.compile(r"\d+\t!{14}[^\n]+\n\n")
         elif parsertype == "turku_ud":
-            splitpattern = re.compile(r"\d+\t![^\n]+\n"*15)
+            #TODO: use metadata.. Why only 10??
+            splitpattern = re.compile(r"\d+\t![^\n]+\n"*10)
         results = splitpattern.split(raw)
         with open(index_file, "r") as f:
             indices = f.read().splitlines()
