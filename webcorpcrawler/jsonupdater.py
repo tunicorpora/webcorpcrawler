@@ -7,7 +7,7 @@ import uuid
 import progressbar
 import re
 import sys
-from webcorpcrawler import TryToFixByText
+from webcorpcrawler.fixes import TryToFixByText
 
 
 class JsonUpdater():
