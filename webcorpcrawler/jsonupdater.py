@@ -7,6 +7,7 @@ import uuid
 import progressbar
 import re
 import sys
+from webcorpcrawler import TryToFixByText
 
 
 class JsonUpdater():
@@ -111,6 +112,7 @@ class JsonUpdater():
             splitpattern = re.compile(r"\d+\t!{14}[^\n]+\n\n")
         elif parsertype == "turku_ud":
             separator_string = "splitsegmentsbymepleasewouldyoubesokindhtankyouverymuchxdxdxd"
+            raw_old = raw
             raw = "\n".join([l for l in raw.splitlines() if not re.search("^#", l) or separator_string in l])
             #TODO: use metadata.. Why only 10??
             splitpattern = re.compile(".*"  + separator_string + ".*")
@@ -120,15 +122,33 @@ class JsonUpdater():
         if len(results) != len(indices):
             print("The number of indices and parsed entries does not match: {} vs. {}"
                     .format(len(results), len(indices)))
-            sys.exit(0)
+            failed = True
+            if parsertype == "turku_ud":
+                path = input("You can try to fix this alignment problem by providing the contents.txt file. Write the path to the file:\n>")
+                while not os.path.isfile(path):
+                    path = input("No such file, try again. Write the path to the file:\n>")
+                with open(path, "r") as f:
+                    orig = f.read()
+                matches = TryToFixByText(orig, raw_old)
+                if(matches):
+                    failed = False
+                    res_by_id = {}
+                    for match in matches:
+                        res_by_id[indices[match["idx"]]] = match["conll"]
+            if failed:
+                sys.exit(0)
         else:
+            failed = False
             res_by_id = {}
             for idx, res in enumerate(results):
                 res_by_id[indices[idx]] = res
+
+        if not failed:
             for e_idx, entry in enumerate(self.data):
                 for i_idx, item in enumerate(entry["data"]):
                     if item["id"] in res_by_id:
                         self.data[e_idx]["data"][i_idx][target_prop] = res_by_id[item["id"]]
+
 
 
     def Output(self, prettyprint=False):
