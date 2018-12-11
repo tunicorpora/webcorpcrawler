@@ -70,8 +70,15 @@ class JsonUpdater():
         for entry in self.data:
             for item in entry["data"]:
                 if target_prop in item:
-                    ids.append(item["id"])
-                    contents.append(item[target_prop])
+                    added = False
+                    #Don't take into account ig the target prop is empty
+                    if item[target_prop]:
+                        if item[target_prop].strip():
+                            ids.append(item["id"])
+                            contents.append(item[target_prop])
+                            added = True
+                    if not added:
+                        print("NOTE: the segment with the id " + item["id"] + " contained an empty " + target_prop + "and will not be processed")
 
         if parsertype == "turku_ud":
             separator_string = "\n###C:splitsegmentsbymepleasewouldyoubesokindhtankyouverymuchxdxdxd\n"
