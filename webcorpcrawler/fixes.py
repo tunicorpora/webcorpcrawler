@@ -20,6 +20,7 @@ def TryToFixByText(orig, conll):
     for idx, seg in progressbar.progressbar(enumerate(segments)):
         sent_idx += 1
         seg = seg.strip().replace("\n"," ")
+        seg = re.sub(r"\s+", " ", seg.strip())
         if sent_idx < len(texts):
             sents = texts[sent_idx]
             conllsents = conll_sentences[sent_idx]
