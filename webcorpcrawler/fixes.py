@@ -17,7 +17,9 @@ def TryToFixByText(orig, conll):
     sent_idx = -1
     matches = []
     print("Scanning through the sentences/segments...")
-    for idx, seg in progressbar.progressbar(enumerate(segments)):
+    for idx, seg in enumerate(segments):
+        #print("{} / {}".format(idx, len(segments)), end='\r')
+        print("{} / {}".format(idx, len(segments)))
         sent_idx += 1
         seg = seg.strip().replace("\n"," ")
         seg = re.sub(r"\s+", " ", seg.strip())
@@ -34,6 +36,8 @@ def TryToFixByText(orig, conll):
             if sents == seg:
                 #If a match was found
                 matches.append({"text" : seg, "conll": conllsents.strip(), "idx": idx})
+        print("matches: {} ".format(len(matches)))
+    print("")
     print("Managed to locate {} matching segments.".format(len(matches)))
     return matches
 
