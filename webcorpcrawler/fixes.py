@@ -22,19 +22,23 @@ def TryToFixByText(orig, conll):
         print("{} / {}".format(idx, len(segments)))
         sent_idx += 1
         seg = seg.strip().replace("\n"," ")
-        seg = re.sub(r"\s+", " ", seg.strip())
-        seg = seg.replace(u'\xa0', u' ')
+        #Remove all spaces for the sake of comparison
+        seg = re.sub(r"\s+", "", seg.strip())
+        seg = seg.replace(u'\xa0', '')
         if sent_idx < len(texts):
             sents = texts[sent_idx]
             sents = sents.replace(u'\xa0', u' ')
+            #Remove all spaces for the sake of comparison
+            sents = re.sub(r"\s+", "", sents.strip())
             conllsents = conll_sentences[sent_idx]
             while sents != seg:
                 if sent_idx + 1 < len(texts):
                     sent_idx += 1
                 else:
                     break
-                sents += " "  + texts[sent_idx]
+                sents +=  texts[sent_idx]
                 sents = sents.replace(u'\xa0', u' ')
+                sents = re.sub(r"\s+", "", sents.strip())
                 conllsents += "\n\n" +  conll_sentences[sent_idx]
             if sents == seg:
                 #If a match was found
