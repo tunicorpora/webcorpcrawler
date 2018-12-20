@@ -35,4 +35,4 @@ add a note on responsive usage
 Examples
 ========
 
-See the `docs` folder. ([dircet link](https://github.com/utacorpora/webcorpcrawler/blob/master/docs/))
+See the `docs` folder. ([dircet link](https://github.com/tunicorpora/webcorpcrawler/blob/master/docs/))
