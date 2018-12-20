@@ -18,8 +18,12 @@ Installation
 Via pip:
 
 ```
-pip3 install git+https://github.com/utacorpora/webcorpcrawler
+pip3 install git+https://github.com/tunicorpora/webcorpcrawler
 ```
+
+Alternatively, you can just manually clone the repository, 
+cd into the directory and run `pip3 install -e .` (note the dot at the end of
+the command)
 
 <!-- 
 TODO:

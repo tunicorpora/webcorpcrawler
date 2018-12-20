@@ -12,8 +12,6 @@ class UpdaterTest(unittest.TestCase):
         TryToFixByText(orig, conll)
 
 
-
-
 if __name__ == '__main__':
     unittest.main()
 
