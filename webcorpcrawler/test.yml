@@ -1,5 +1,5 @@
 output:
-    - root: /home/user/test/
+    - root: /home/developer/
 targets: 
-    - url: http://url.test
+    - url: https://hrmj.dev/blog
       meta: testi
