@@ -71,7 +71,6 @@ def main():
 
     if args.action == "crawl":
         if args.scraper:
-            scrapermodule = __import__(args.scraper.replace('.py', ''))
             spec = importlib.util.spec_from_file_location(
                 "Scraper", args.scraper)
             scrapermodule = importlib.util.module_from_spec(spec)
