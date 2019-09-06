@@ -12,6 +12,7 @@ import json
 
 class Scraper():
     """Scraper for automatic retrieval of data from IG"""
+
     def __init__(self):
         self.tasks = []
         self.browser_started = False
@@ -19,6 +20,7 @@ class Scraper():
         self.whichbrowser = "Cromium"
         self.testmode = False
         self.data = {}
+        self.injected_credentials = ''
 
     def SetTestmode(self):
         self.testmode = True
@@ -86,6 +88,11 @@ class Scraper():
         Gets a page
         """
         logging.info("Getting url: " + url)
+        if self.injected_credentials:
+            url = url.replace('https://',
+                              'https://{}'.format(self.injected_credentials))
+            url = url.replace('http://',
+                              'http://{}'.format(self.injected_credentials))
         self.browser.get(url)
         time.sleep(1)
 
