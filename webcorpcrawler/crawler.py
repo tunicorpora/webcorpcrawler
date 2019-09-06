@@ -93,7 +93,7 @@ class Scraper():
             url = url.replace('http://',
                               'http://{}'.format(self.injected_credentials))
         logging.info("Getting url: " + url)
-        #self.browser.get(url)
+        self.browser.get(url)
         time.sleep(1)
 
     def Stop(self):
