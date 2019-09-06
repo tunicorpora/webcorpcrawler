@@ -87,13 +87,12 @@ class Scraper():
         """
         Gets a page
         """
-        logging.info("Getting url: " + url)
         if self.injected_credentials:
             url = url.replace('https://',
                               'https://{}'.format(self.injected_credentials))
             url = url.replace('http://',
                               'http://{}'.format(self.injected_credentials))
-        print(url)
+        logging.info("Getting url: " + url)
         #self.browser.get(url)
         time.sleep(1)
 
