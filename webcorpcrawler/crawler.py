@@ -1,7 +1,7 @@
 #! /usr/bin/python3.6
 
 import yaml
-from selenium import webdriver  
+from selenium import webdriver
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from selenium.webdriver.chrome.options import Options
 import logging
@@ -12,7 +12,6 @@ import json
 
 class Scraper():
     """Scraper for automatic retrieval of data from IG"""
-
     def __init__(self):
         self.tasks = []
         self.browser_started = False
@@ -39,21 +38,25 @@ class Scraper():
 
         """
         loggerlocation = "/tmp/crawler.log"
-        logging.basicConfig(filename=loggerlocation, level=logging.INFO, format='%(asctime)s %(message)s')
+        logging.basicConfig(filename=loggerlocation,
+                            level=logging.INFO,
+                            format='%(asctime)s %(message)s')
         print("Starting. Check out the logger at " + loggerlocation)
 
         logging.info('Trying to start the browser')
         if self.whichbrowser == "Firefox":
-            profile = FirefoxProfile('/home/juho/.mozilla/firefox/thjkscy9.default/')
-            self.browser = webdriver.Firefox(profile)  
+            profile = FirefoxProfile(
+                '/home/juho/.mozilla/firefox/thjkscy9.default/')
+            self.browser = webdriver.Firefox(profile)
         else:
-            chrome_options = Options()  
+            chrome_options = Options()
             if not self.testmode:
-                chrome_options.add_argument("--headless")  
-                chrome_options.add_argument("--disable-gpu")  
-                chrome_options.add_argument("no-sandbox")  
-            self.browser = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver",
-                                              options=chrome_options)
+                chrome_options.add_argument("--headless")
+                chrome_options.add_argument("--disable-gpu")
+                chrome_options.add_argument("no-sandbox")
+            self.browser = webdriver.Chrome(
+                "/usr/lib/chromium-browser/chromedriver",
+                options=chrome_options)
         self.browser.implicitly_wait(3)
         self.browser_started = True
         logging.info('Browser started')
@@ -69,7 +72,7 @@ class Scraper():
               meta: testi
 
         """
-        with open(yamlpath,"r") as f:
+        with open(yamlpath, "r") as f:
             targets = yaml.safe_load(f)
 
         for target in targets["targets"]:
@@ -78,15 +81,13 @@ class Scraper():
 
         self.output_folder = targets["output"]
 
-
-
     def Get(self, url):
         """
         Gets a page
         """
         logging.info("Getting url: " + url)
         self.browser.get(url)
-        time.sleep(1)  
+        time.sleep(1)
 
     def Stop(self):
         """
@@ -100,7 +101,6 @@ class Scraper():
                     logging.info("The browser window was closed.")
         if self.data:
             self.Output()
-
 
     def Crawl(self):
         """
@@ -132,4 +132,3 @@ class Scraper():
             with open(fn, 'w') as fp:
                 json.dump(taskdata, fp, ensure_ascii=False)
         logging.info("Outputting done.")
-

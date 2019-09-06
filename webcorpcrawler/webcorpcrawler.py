@@ -2,8 +2,7 @@
 import argparse
 from webcorpcrawler import IgScraper, JsonUpdater
 import importlib.util
-from dotenv import load_dotenv
-load_dotenv()
+import os
 
 
 def main():
@@ -77,7 +76,7 @@ def main():
                 "Scraper", args.scraper)
             scrapermodule = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(scrapermodule)
-            s = scrapermodule.Scraper()
+            s = scrapermodule.Scraper(username, password)
             s.GetTaskFromYaml(args.crawlconfig)
             s.Crawl()
         elif args.corpus == "integrum":
