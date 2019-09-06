@@ -2,8 +2,8 @@
 import argparse
 from webcorpcrawler import IgScraper, JsonUpdater
 import importlib.util
-from dotenv import load_env
-load_env()
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def main():
