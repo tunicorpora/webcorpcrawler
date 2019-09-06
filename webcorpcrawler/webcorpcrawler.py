@@ -76,7 +76,7 @@ def main():
                 "Scraper", args.scraper)
             scrapermodule = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(scrapermodule)
-            s = scrapermodule.Scraper(username, password)
+            s = scrapermodule.Scraper()
             s.GetTaskFromYaml(args.crawlconfig)
             s.Crawl()
         elif args.corpus == "integrum":
