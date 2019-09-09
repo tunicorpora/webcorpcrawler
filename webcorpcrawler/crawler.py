@@ -39,7 +39,7 @@ class Scraper():
             - also relevant: https://stackoverflow.com/questions/16180428/can-selenium-webdriver-open-browser-windows-silently-in-background
 
         """
-        loggerlocation = "/tmp/crawler.log"
+        loggerlocation = "crawler.log"
         logging.basicConfig(filename=loggerlocation,
                             level=logging.INFO,
                             format='%(asctime)s %(message)s')
