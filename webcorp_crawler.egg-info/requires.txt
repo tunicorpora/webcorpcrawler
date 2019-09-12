@@ -1,5 +1,5 @@
+selenium
 bs4
 justext
 progressbar2
 python-dotenv
-selenium

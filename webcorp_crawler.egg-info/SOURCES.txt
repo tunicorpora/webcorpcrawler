@@ -13,5 +13,6 @@ webcorpcrawler/crawler.py
 webcorpcrawler/fixes.py
 webcorpcrawler/igcrawler.py
 webcorpcrawler/jsonupdater.py
+webcorpcrawler/sentence_filter.py
 webcorpcrawler/test.py
 webcorpcrawler/webcorpcrawler.py

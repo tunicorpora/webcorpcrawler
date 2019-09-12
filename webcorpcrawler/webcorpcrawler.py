@@ -8,11 +8,14 @@ import os
 def main():
     parser = argparse.ArgumentParser(
         description='Fetches the results of a web corpus query to json')
-    parser.add_argument(
-        'action',
-        metavar='action',
-        choices=["crawl", "add_uids", "prepare", "add_parsed", "custom"],
-        help="The action to run")
+    parser.add_argument('action',
+                        metavar='action',
+                        choices=[
+                            "crawl", "add_uids", "prepare", "add_parsed",
+                            "custom", "fix_n", "fix_long_sentences",
+                            "extract_match"
+                        ],
+                        help="The action to run")
     parser.add_argument('-c',
                         '--corpus',
                         metavar='corpus name',
@@ -86,6 +89,18 @@ def main():
     elif args.action == "add_uids":
         updater = JsonUpdater(args.files)
         updater.AddUids()
+        updater.Output(args.prettyprint)
+    elif args.action == "fix_long_sentences":
+        updater = JsonUpdater(args.files)
+        updater.FixLongSentences(args.prop)
+        updater.Output(args.prettyprint)
+    elif args.action == "fix_n":
+        updater = JsonUpdater(args.files)
+        updater.FixFakeNewLines(args.prop)
+        updater.Output(args.prettyprint)
+    elif args.action == "extract_match":
+        updater = JsonUpdater(args.files)
+        updater.extractMatchContext(args.prop)
         updater.Output(args.prettyprint)
     elif args.action == "prepare":
         updater = JsonUpdater(args.files)
