@@ -47,6 +47,9 @@ def main():
         help=
         "path to the file containing indices, produced by the 'prepare' action"
     )
+    parser.add_argument('--parser_model',
+                        metavar="parser_model",
+                        help="name of the model the parser should be using")
     parser.add_argument('--output_folder',
                         metavar="path to folder",
                         help="where to put the output files")
